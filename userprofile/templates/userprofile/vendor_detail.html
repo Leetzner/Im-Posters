@@ -1,14 +1,14 @@
 {% extends 'core/base.html' %}
 
-{% block title %}{{ category.title }}{% endblock %}
+{% block title %}{% firstof user.get_full_name user.username %}{% endblock %}
 
 {% block content %}
-<h1 class="text-info"> {{ category.title }} </h1> 
+<h1 class="">{% firstof user.get_full_name user.username %}</h1>
 
 <div class="container-fluid">
     <div class="product-container col-10 offset-1"> 
         <div class="row mt-1 mb-3">
-        {% for product in products %}      
+        {% for product in user.products.all %}      
             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                 <div class="border-0 bg-dark">
                     <a href="{% url 'product_detail' product.category.slug product.slug %}">
