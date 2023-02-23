@@ -4,6 +4,7 @@
 
 {% block content %}
     {% if product.image %}
+    <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <img src="{{ product.image.url }}" class="img-fluid" alt="Image of {{ product.title }}">                        
@@ -24,4 +25,5 @@
                 </p>
             {% endif %}
         </div> 
+    </div>
 {% endblock %}
