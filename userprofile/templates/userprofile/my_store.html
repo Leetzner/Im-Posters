@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Store{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>My store</h1>
+
+    <a href="{% url 'add_product' %}" class="btn btn-light btn-lg">Add product</a>
+
+    <h2 class="">My products</h2>
+
+    {% if request.user.products.all %}
+    <div class="container">
+        <div class="product-container col-10 offset-1"> 
+            <div class="row mt-1 mb-3">
+            {% for product in request.user.products.all %}      
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="border-0 bg-dark card">
+                        <a href="{% url 'edit_product' product.id %}">
+                            {% if product.image %}
+                            <div class="card">
+                                <img src="{{ product.image.url }}" alt="Image of {{ product.title }}">
+                            </div>
+                            {% endif %}
+                            <h2 class="text-info bg-dark">{{ product.title }}</h2>
+                            <p class="text-warning">${{ product.get_display_price }}</p>
+                        </a>
+                    </div>
+                </div>      
+            {% endfor %}
+            </div>         
+        </div>
+    </div> 
+    {% else %}
+    <p class="">You don´t have any products yet...</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
