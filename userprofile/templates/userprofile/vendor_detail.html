@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="product-container col-10 offset-1"> 
             <div class="row mt-1 mb-3">
-            {% for product in user.products.all %}      
+            {% for product in products %}      
                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <div class="border-0 bg-dark">
                         <a href="{% url 'product_detail' product.category.slug product.slug %}">

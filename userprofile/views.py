@@ -14,15 +14,20 @@ from store.models import Product
 
 def vendor_detail(request, pk):
     user = User.objects.get(pk=pk)
+    product = user.products.filter(status=Product.ACTIVE)
 
     return render(request, 'userprofile/vendor_detail.html', {
-        'user': user
+        'user': user,
+        'products': products,
     })
 
 
 @login_required
 def my_store(request):
-    return render(request, 'userprofile/my_store.html')
+    products = request.user.products.exclude(status=Product.DELETED)
+    return render(request, 'userprofile/my_store.html', {
+        'products': products
+    })
 
 
 @login_required
@@ -46,7 +51,7 @@ def add_product(request):
 
     form = ProductForm()
 
-    return render(request, 'userprofile/add_product.html', {
+    return render(request, 'userprofile/product_form.html', {
         'title': 'Add product',
         'form': form
     })
@@ -69,8 +74,9 @@ def edit_product(request, pk):
     else:
         form = ProductForm(instance=product)
 
-    return render(request, 'userprofile/add_product.html', {
+    return render(request, 'userprofile/product_form.html', {
         'title': 'Edit product',
+        'product': product,
         'form': form
     })
 
@@ -78,10 +84,12 @@ def edit_product(request, pk):
 @login_required
 def delete_product(request, pk):
     product = Product.objects.filter(user=request.user).get(pk=pk)
-    product.status=Product.DELETED
+    product.status = Product.DELETED
     product.save()
 
     messages.success(request, 'The product was delete!')
+
+    return redirect('my_store')
 
 
 @login_required
