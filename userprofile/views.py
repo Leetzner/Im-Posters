@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -37,6 +38,8 @@ def add_product(request):
             product.slug = slugify(title)
             product.save()
 
+            messages.success(request, 'Added the product!')
+
             return redirect('my_store')
     else:
         form = ProductForm()
@@ -59,6 +62,8 @@ def edit_product(request, pk):
         if form.is_valid():
             form.save()
 
+            messages.success(request, 'Saved changes!')
+
             return redirect('my_store')
 
     else:
@@ -68,6 +73,16 @@ def edit_product(request, pk):
         'title': 'Edit product',
         'form': form
     })
+
+
+@login_required
+def delete_product(request, pk):
+    product = Product.objects.filter(user=request.user).get(pk=pk)
+    product.status=Product.DELETED
+    product.save()
+
+    messages.success(request, 'The product was delete!')
+
 
 @login_required
 def myaccount(request):
