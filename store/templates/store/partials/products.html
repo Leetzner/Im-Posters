@@ -7,7 +7,7 @@
                     <a href="{% url 'product_detail' product.category.slug product.slug %}">
                         {% if product.image %}
                         <div class="card">
-                            <img src="{{ product.image.url }}" alt="Image of {{ product.title }}">
+                            <img src="{{ product.get_thumbnail }}" alt="Image of {{ product.title }}">
                         </div>
                         {% endif %}
                         <h2 class="text-info bg-dark">{{ product.title }}</h2>
