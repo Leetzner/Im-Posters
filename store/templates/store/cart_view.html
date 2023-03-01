@@ -3,41 +3,49 @@
 {% block title %}Cart{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mx-4 mb-5">Cart</h1>
+    <div class="container">
+        <h1 class="mx-4 mb-5">Cart</h1>
+        
+        {% if cart|length %}
+
+            {% for item in cart %}
+            <div class="bg-light mx-4 my-2 mb-3 border border-secondary">
+                <p>
+                    <div class="p-3">
+                        <img class="w-25" src="{{ item.product.get_thumbnail }}">
+                    </div>
+
+                    <div class="col-lg-6">
+
+                    
+                        <h2>{{ item.product.title }}</h2> 
+
+                        <p class="text-dark">${{ item.product.get_display_price }} </p>
+                        
+                        <div class="btn btn-dark mt-3 mb-3 p-2">
+                            <a class="text-white pr-1" href="{% url 'change_quantity' item.product.id %}?action=increase">+</a>
+                            {{ item.quantity }}
+                            <a class="text-white pl-2" href="{% url 'change_quantity' item.product.id %}?action=decrease">-</a>
+                        </div>
+                        <br>
+                        <a class="text-dark" href="{% url 'remove_from_cart' item.product.id %}"><h2><i class="bi bi-trash2"></i></h2></a>
+                    </div>
+                </p>
+            </div> 
+            {% endfor %}        
+
+            <hr class="my-4">
+
+            <strong class="mx-4">Total cost:</strong>${{ cart.get_total_cost }}
+
+            <hr>
+
+            <a href="{% url 'checkout' %}" class="btn btn-dark btn-lg mx-4">Checkout</a>
+        {% else %}
+            <div class="bg-dark text-white py-3 px-2 ">
+                No products can be found in your cart...
+            </div>
+        {% endif %}
+    </div>
     
-    {% for item in cart %}
-    <div class="bg-light mx-4 my-2 mb-3 border border-secondary">
-        <p>
-            <div class="p-3">
-                <img class="w-25" src="{{ item.product.get_thumbnail }}">
-            </div>
-
-            <div class="col-lg-6">
-
-            
-                <h2>{{ item.product.title }}</h2> 
-
-                <p class="text-dark">${{ item.product.get_display_price }} </p>
-                
-                <div class="btn btn-dark mt-3 mb-3 p-2">
-                    <a class="text-white pr-1" href="{% url 'change_quantity' item.product.id %}?action=increase">+</a>
-                    {{ item.quantity }}
-                    <a class="text-white pl-2" href="{% url 'change_quantity' item.product.id %}?action=decrease">-</a>
-                </div>
-                <br>
-                <a class="text-dark" href="{% url 'remove_from_cart' item.product.id %}"><h2><i class="bi bi-trash2"></i></h2></a>
-            </div>
-        </p>
-    </div> 
-    {% endfor %}        
-
-    <hr class="my-4">
-
-    <strong class="mx-4">Total cost:</strong>${{ cart.get_total_cost }}
-
-    <hr>
-
-    <a href="{% url 'checkout' %}" class="btn btn-dark btn-lg mx-4">Checkout</a>
-</div>
 {% endblock %}
