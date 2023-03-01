@@ -5,27 +5,39 @@
 {% block content %}
 <div class="container">
     <h1 class="mx-4 mb-5">Cart</h1>
-    <hr>
+    
     {% for item in cart %}
-    <div class="bg-light mx-4 my-2 mb-3 p-1">
+    <div class="bg-light mx-4 my-2 mb-3 border border-secondary">
         <p>
-            <b>Title: </b>{{ item.product.title }} <br>
-            <b>Quantity: </b>{{ item.quantity }} <br>
+            <div class="p-3">
+                <img class="w-25" src="{{ item.product.get_thumbnail }}">
+            </div>
 
-            <a href="{% url 'change_quantity' item.product.id %}?action=increase">Increase +</a>
-            <a href="{% url 'change_quantity' item.product.id %}?action=decrease">Decrease -</a>
+            <div class="col-lg-6">
 
-            <a href="{% url 'remove_from_cart' item.product.id %}">Remove from cart</a>
+            
+                <h2>{{ item.product.title }}</h2> 
+
+                <p class="text-dark">${{ item.product.get_display_price }} </p>
+                
+                <div class="btn btn-dark mt-3 mb-3 p-2">
+                    <a class="text-white pr-1" href="{% url 'change_quantity' item.product.id %}?action=increase">+</a>
+                    {{ item.quantity }}
+                    <a class="text-white pl-2" href="{% url 'change_quantity' item.product.id %}?action=decrease">-</a>
+                </div>
+                <br>
+                <a class="text-dark" href="{% url 'remove_from_cart' item.product.id %}"><h2><i class="bi bi-trash2"></i></h2></a>
+            </div>
         </p>
     </div> 
     {% endfor %}        
 
     <hr class="my-4">
 
-    <strong class="mx-4">Total cost:</strong> {{ cart.get_total_cost }}
+    <strong class="mx-4">Total cost:</strong>${{ cart.get_total_cost }}
 
     <hr>
 
-    <a href="#" class="btn btn-secondary btn-lg mx-4">Checkout</a>
+    <a href="{% url 'checkout' %}" class="btn btn-dark btn-lg mx-4">Checkout</a>
 </div>
 {% endblock %}
