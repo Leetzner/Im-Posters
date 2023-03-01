@@ -4,23 +4,28 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="text-info">Cart</h1>
+    <h1 class="mx-4 mb-5">Cart</h1>
+    <hr>
     {% for item in cart %}
-    <p>
-        <b>Title: </b>{{ item.product.title }} <br>
-        <b>Quantity: </b>{{ item.quantity }} <br>
+    <div class="bg-light mx-4 my-2 mb-3 p-1">
+        <p>
+            <b>Title: </b>{{ item.product.title }} <br>
+            <b>Quantity: </b>{{ item.quantity }} <br>
 
-        <a href="{% url 'change_quantity' item.product.id %}?action=increase">Increase +</a>
-        <a href="{% url 'change_quantity' item.product.id %}?action=decrease">Decrease -</a>
+            <a href="{% url 'change_quantity' item.product.id %}?action=increase">Increase +</a>
+            <a href="{% url 'change_quantity' item.product.id %}?action=decrease">Decrease -</a>
 
-        <a href="{% url 'remove_from_cart' item.product.id %}">Remove from cart</a>
-    </p>
-    {% endfor %}
+            <a href="{% url 'remove_from_cart' item.product.id %}">Remove from cart</a>
+        </p>
+    </div> 
+    {% endfor %}        
 
-    <strong>Total cost:</strong> {{ cart.get_total_cost }}
+    <hr class="my-4">
+
+    <strong class="mx-4">Total cost:</strong> {{ cart.get_total_cost }}
 
     <hr>
 
-    <a href="#" class="btn btn-secondary btn-lg">Checkout</a>
+    <a href="#" class="btn btn-secondary btn-lg mx-4">Checkout</a>
 </div>
 {% endblock %}
