@@ -14,6 +14,47 @@
         {% endfor %}
     {% endif %}
 
+    <h2 class="mb-4 mt-3">My orders</h2>
+    <div class="container bg-light rounded">
+        <div class="row mb-3">
+            <div class="col">
+                <strong>ID</strong>
+            </div>
+            <div class="col">
+                <strong>Title</strong>
+            </div>
+            <div class="col">
+                <strong>Quantity</strong>
+            </div>
+            <div class="col">
+                <strong>Price</strong>
+            </div>
+        </div>
+      </div>
+
+    
+
+    {% for order_item in order_items %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <a href="{% url 'my_store_order_detail' order_item.order.id %}">{{ order_item.order.id}}</a> 
+                </div>
+                <div class="col-sm">
+                    {{ order_item.product.title }}
+                </div>
+                <div class="col-sm">
+                    {{ order_item.quantity }}
+                </div>
+                <div class="col-sm">
+                    ${{ order_item.get_display_price }}
+                </div>
+            </div>
+        </div>
+        
+    {% endfor %}
+    <hr>
+
     <a href="{% url 'add_product' %}" class="btn btn-light btn-lg">Add product</a>
 
     <h2 class="mb-4">My products</h2>
